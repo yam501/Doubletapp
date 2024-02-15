@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,20 +17,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         square = findViewById(R.id.openSecondActivity)
+        countTextView = findViewById(R.id.countTextView)
+
 
         square?.setOnClickListener {
-            count++
             val intent = Intent(this, SquareActivity::class.java)
             updateCount();
             intent.putExtra("count", count)
             startActivity(intent)
-        }
-
-        countTextView = findViewById(R.id.countTextView)
-        if (savedInstanceState != null) {
-            count = savedInstanceState.getInt(STATE_COUNT);
         }
         updateCount();
     }
@@ -41,36 +35,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+        count++
         outState.putInt(STATE_COUNT, count)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        count = savedInstanceState.getInt(STATE_COUNT)
+        updateCount()
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart")
+        Log.i(TAG, "onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume")
+        Log.i(TAG, "onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause")
+        Log.i(TAG, "onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop")
+        Log.i(TAG, "onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy")
+        Log.i(TAG, "onDestroy")
     }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        Log.i(TAG, "onDestroy")
         count++
         updateCount()
     }
